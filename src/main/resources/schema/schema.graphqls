@@ -1,16 +1,19 @@
 type Query {
-    shows(titleFilter: String): [Show]
+    fetchShows(titleFilter: String): [Show]
+    fetchShow(id: Int): Show
 }
 
 type Mutation {
     addShow(title: String, starScore: Int): Show
 }
 
-type Show {
-    title: String
+type Show @key (fields: "id") {
+    id: ID!
+    title: String!
     reviews: [Review]
 }
 
-type Review {
+type Review @key (fields: "id") {
+    id: ID!
     starScore: Int
 }
