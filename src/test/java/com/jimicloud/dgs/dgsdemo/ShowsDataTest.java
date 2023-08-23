@@ -32,7 +32,7 @@ class ShowsDataTest {
     @Test
     void testShowsDataFetcher_ThreeShowsListed() {
         ShowsDataService showsDataService = new ShowsDataService();
-        List<Show> x = showsDataService.shows(null);
+        List<Show> x = showsDataService.fetchShows(null);
         assertNotNull(x, "Should not be null");
         assertEquals(x.size(), 0, "Should be '0' shows listed");
     }
@@ -41,7 +41,7 @@ class ShowsDataTest {
     void testAddNewShow_AddedAndQueried() {
         ShowsDataService showsDataService = new ShowsDataService();
         Show x = showsDataService.addShow("The Witcher 4", 5);
-        List<Show> shows = showsDataService.shows("The Witcher 4");
+        List<Show> shows = showsDataService.fetchShows("The Witcher 4");
         assertNotNull(x, "Should 'not be null'");
         assertNotNull(shows.get(0), "Should 'not be null'");
         assertEquals(shows.get(0).getTitle(), "The Witcher 4", "Should be 'The Witcher'");
