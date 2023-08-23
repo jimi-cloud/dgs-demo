@@ -1,6 +1,8 @@
 package com.jimicloud.dgs.dgsdemo;
 
-import com.netflix.dgs.codegen.generated.types.Show;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ShowsDataRepository extends MongoRepository<Show, Integer> {}
+@Repository
+public interface ShowsDataRepository<Show, String> extends MongoRepository<Show, String> {
+}

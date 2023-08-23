@@ -13,7 +13,8 @@ class ShowsDataTest {
 
     @Test
     void testNullTitle_WithException() {
-        ShowsDataService showsDataService = new ShowsDataService();
+        SimpleShowsDataRepository<Show, String>  simpleShowsDataRepository = new SimpleShowsDataRepository<Show, String> (null, null));
+        ShowsDataService showsDataService = new ShowsDataService(simpleShowsDataRepository);
         assertThrows(IllegalArgumentException.class,
                 () -> showsDataService.addShow(null, 10),
                 "Should throw 'IllegalArgumentException'"
@@ -22,7 +23,7 @@ class ShowsDataTest {
 
     @Test
     void testNullStarScore_WithException() {
-        ShowsDataService showsDataService = new ShowsDataService();
+        ShowsDataService showsDataService = new ShowsDataService(showsDataRepository);
         assertThrows(IllegalArgumentException.class,
                 () -> showsDataService.addShow("Gamer", null),
                 "Should throw 'IllegalArgumentException'"
@@ -31,7 +32,7 @@ class ShowsDataTest {
 
     @Test
     void testShowsDataFetcher_ThreeShowsListed() {
-        ShowsDataService showsDataService = new ShowsDataService();
+        ShowsDataService showsDataService = new ShowsDataService(showsDataRepository);
         List<Show> x = showsDataService.fetchShows(null);
         assertNotNull(x, "Should not be null");
         assertEquals(x.size(), 0, "Should be '0' shows listed");
@@ -39,7 +40,7 @@ class ShowsDataTest {
 
     @Test
     void testAddNewShow_AddedAndQueried() {
-        ShowsDataService showsDataService = new ShowsDataService();
+        ShowsDataService showsDataService = new ShowsDataService(showsDataRepository);
         Show x = showsDataService.addShow("The Witcher 4", 5);
         List<Show> shows = showsDataService.fetchShows("The Witcher 4");
         assertNotNull(x, "Should 'not be null'");
@@ -50,7 +51,7 @@ class ShowsDataTest {
 
     @Test
     void testAddNewShow_AddedSuccessfully() {
-        ShowsDataService showsDataService = new ShowsDataService();
+        ShowsDataService showsDataService = new ShowsDataService(showsDataRepository);
         Show x = showsDataService.addShow("The Witcher 3", 5);
         assertNotNull(x, "Should 'not be null'");
         assertEquals(x.getTitle(), "The Witcher 3", "Should be 'The Witcher 3'");
@@ -59,7 +60,7 @@ class ShowsDataTest {
 
     @Test
     void testAddDuplicateShow_ThrowsException() {
-        ShowsDataService showsDataService = new ShowsDataService();
+        ShowsDataService showsDataService = new ShowsDataService(showsDataRepository);
         showsDataService.addShow("The Witcher 2", 5);
         assertThrows(IllegalArgumentException.class,
                 () -> showsDataService.addShow("The Witcher 2", 5),
