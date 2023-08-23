@@ -1,0 +1,16 @@
+type Query {
+    shows(titleFilter: String): [Show]
+}
+
+type Mutation {
+    addShow(title: String, starScore: Int): Show
+}
+
+type Show {
+    title: String
+    reviews: [Review]
+}
+
+type Review {
+    starScore: Int
+}
