@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Vector;
 
 @DgsComponent
-public class ShowsDataFetcher {
+public class ShowsDataService {
 
     private static final List<Show> showData = new Vector<>();
 
