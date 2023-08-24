@@ -9,20 +9,19 @@ import com.netflix.graphql.dgs.InputArgument;
 import org.springframework.data.domain.Example;
 
 import java.util.List;
-import java.util.UUID;
 
 @DgsComponent
 public class ShowsDataService {
 
-    private final SimpleShowsDataRepository<Show, String> simpleShowsDataRepository;
+    private final ShowsDataRepository simpleShowsDataRepository;
 
-    public ShowsDataService(SimpleShowsDataRepository<Show, String> simpleShowsDataRepository) {
+    public ShowsDataService(ShowsDataRepository simpleShowsDataRepository) {
         this.simpleShowsDataRepository = simpleShowsDataRepository;
     }
 
 
     @DgsQuery
-    public List<Show> fetchShows(@InputArgument String titleFilter) {
+    public List<Show> fetchShowsWithOptionalFilter(@InputArgument String titleFilter) {
         if (titleFilter != null) {
             return simpleShowsDataRepository.findAll(Example.of(Show.builder().title(titleFilter).build()));
         }
@@ -40,15 +39,12 @@ public class ShowsDataService {
             throw new IllegalArgumentException("Both title and starScore are required");
         }
 
-        if (showData.stream().anyMatch(s -> s.getTitle().equals(title))) {
-            throw new IllegalArgumentException("Show with title " + title + " already exists");
-        }
+        Show show = Show.builder()
+                .title(title)
+                .reviews(List.of(new Review(starScore)))
+                .build();
 
-        Show show = Show.builder().id(UUID.randomUUID().toString()).title(title).reviews(List.of(Review.builder().starScore(starScore).build())).build();
-
-
-
-        showData.add(show);
+        simpleShowsDataRepository.save(show);
         return show;
     }
 }

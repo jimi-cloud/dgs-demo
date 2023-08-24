@@ -1,6 +1,6 @@
 type Query {
-    fetchShows(titleFilter: String): [Show]
-    fetchShow(id: Int): Show
+    fetchShowsWithOptionalFilter(titleFilter: String): [Show]
+    fetchShow(id: String): Show
 }
 
 type Mutation {
@@ -13,7 +13,6 @@ type Show @key (fields: "id") {
     reviews: [Review]
 }
 
-type Review @key (fields: "id") {
-    id: ID!
+type Review {
     starScore: Int
 }
